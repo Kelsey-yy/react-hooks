@@ -1,8 +1,14 @@
 import { Card, Form, Input, Button } from 'antd'
+import { useDispatch } from 'react-redux'
 import './index.scss'
+import { fetchLogin } from '@/store/module/user'
 const Login = () => {
+    const dispatch = useDispatch()
     const handleFinish = (values: any) => {
         console.log('Success:', values);
+        // 触发fetchLogin
+        dispatch(fetchLogin(values))
+
       };
     return (
         <div className='login'>
