@@ -35,7 +35,7 @@ const Login = () => {
                     </Form.Item>
 
                     <Form.Item
-                    label="密码"
+                    label="密码 246810"
                     name="code"
                     rules={[{ required: true, message: '请输入密码!' }]}
                     >
