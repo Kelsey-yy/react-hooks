@@ -1,14 +1,20 @@
-import { Card, Form, Input, Button } from 'antd'
+import { Card, Form, Input, Button, message } from 'antd'
 import { useDispatch } from 'react-redux'
 import './index.scss'
 import { fetchLogin } from '@/store/module/user'
+import { useNavigate } from 'react-router-dom'
 const Login = () => {
     const dispatch = useDispatch()
-    const handleFinish = (values: any) => {
+    const navigate = useNavigate()
+    const handleFinish = async (values: any) => { // 246810
         console.log('Success:', values);
         // 触发fetchLogin
-        dispatch(fetchLogin(values))
+        await dispatch(fetchLogin(values))
 
+        // 跳转到首页
+        navigate('/')
+        // 提示用户成功
+        message.success('登录成功2222!')
       };
     return (
         <div className='login'>
