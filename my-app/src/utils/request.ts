@@ -1,7 +1,8 @@
 //1. 根域名配置
 
 import axios from "axios";
-import { getToken } from "./token";
+import { getToken, removeToken } from "./token";
+import router from "../router";
 
 // 2. 超时时间
 // 3.请求拦截器
@@ -25,8 +26,14 @@ request.interceptors.request.use(config => {
 })
 
 request.interceptors.response.use(response => {
+    
     return response.data
 }, (error) => {
+    // 监控401，token失效
+    if (error.response.status === 401) {
+        removeToken()
+        router.navigate('/login')
+    }
     return Promise.reject(error)
 })
 
