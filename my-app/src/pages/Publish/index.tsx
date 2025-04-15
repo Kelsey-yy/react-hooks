@@ -16,8 +16,20 @@ import './index.scss'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import TextArea from 'antd/es/input/TextArea';
-
+import {getChannelApi} from '@/apis/article'
+import { useEffect, useState } from 'react';
 const Publish = () => {
+    const [channelList, setChannelList] = useState([])
+    useEffect(() => {
+        // 1. 封装一个函数，在函数体内调用接口
+        const getChannelList = async () => {
+            const res = await getChannelApi()
+            setChannelList(res.data.channels)
+        }
+        // 2. 在useEffect中调用函数
+        getChannelList()
+      
+    }, [])
   return (
     <div className='publish'>
       <Card title={
@@ -46,7 +58,10 @@ const Publish = () => {
               rules={[{required: true, message: '请选择文章分类'}]}
               >
               <Select placeholder='请选择文章分类' style={{width: 400}}>
-                <Option value={0}>推荐</Option>
+                {
+                    channelList.map(item => <Option key={item.id}  value={item.id}>{item.name}</Option>)
+                }
+                
               </Select>
             </Form.Item>
             <Form.Item
