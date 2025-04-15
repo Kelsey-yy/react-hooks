@@ -7,7 +7,8 @@ import {
     Upload,
     Space,
     Select,
-    Breadcrumb
+    Breadcrumb,
+    message
 } from 'antd'
 
 import { PlusOutlined } from '@ant-design/icons';
@@ -31,14 +32,16 @@ const Publish = () => {
       
     }, [])
     const onFinish = async (formValue: any) => {
+        
         // 1. 对表单数据进行处理
         const {title, content, channel_id} = formValue
+        if (imageList.length !== imageType) return message.warning('请上传正确的封面数量')
         const reqData = {
             title,
             content,
             cover: {
-                type: 0,
-                images: []
+                type: imageType,
+                images: imageList.map((item: any )=> item.response.data.url)
             },
             channel_id,
         }
@@ -52,6 +55,11 @@ const Publish = () => {
     const onChange = (value: any) => {
         setImageList(value.fileList)
     }
+
+    const [imageType, setImageType] = useState(0)
+    const onTypeChange = (e: any) => {
+        setImageType(e.target.value)
+    }
   return (
     <div className='publish'>
       <Card title={
@@ -62,10 +70,11 @@ const Publish = () => {
             ]} 
         />
       }>
+        {/* initialValues={{type: 0}}控制整个表单的初始值 */}
         <Form
             labelCol={{span: 4}}
             wrapperCol={{span: 16}}
-            initialValues={{type: `1`}}
+            initialValues={{type: 0}}
             onFinish={onFinish}
         >
             <Form.Item
@@ -91,7 +100,7 @@ const Publish = () => {
                 <Form.Item
                   name='type'
                   >
-                    <Radio.Group>
+                    <Radio.Group onChange={onTypeChange}>
                         <Radio value={1}>单图</Radio>
                         <Radio value={3}>三图</Radio>
                         <Radio value={0}>无图</Radio>
@@ -100,17 +109,20 @@ const Publish = () => {
                 {/* listType: 决定选择文件框的外观样式
                     showUploadList: 决定是否显示文件列表
                  */}
-                  <Upload
-                    listType="picture-card"
-                    showUploadList
-                    action={'http://geek.itheima.net/v1_0/upload'}
-                    name='image'
-                    onChange={onChange}
-                    >
+                 { imageType > 0 &&
+                    <Upload
+                        listType="picture-card"
+                        showUploadList
+                        action={'http://geek.itheima.net/v1_0/upload'}
+                        name='image'
+                        onChange={onChange}
+                        maxCount={imageType}
+                        >
                         <div style={{marginTop: 8}}>
                             <PlusOutlined />
                         </div>
                     </Upload>
+                }
             </Form.Item>
             <Form.Item
               label='内容'
