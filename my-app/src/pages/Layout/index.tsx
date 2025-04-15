@@ -7,6 +7,7 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout as _Layout, Menu, theme } from 'antd';
+import { Outlet } from 'react-router-dom';
 
 const { Header, Sider, Content } = _Layout;
 
@@ -56,17 +57,10 @@ const Layout = () => {
             }}
           />
         </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          Content
-        </Content>
+        <_Layout>
+            {/* 二级路由出口 */}
+            <Outlet />
+        </_Layout>
       </_Layout>
     </_Layout>
   );
