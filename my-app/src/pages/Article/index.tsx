@@ -14,14 +14,19 @@ const { RangePicker } = DatePicker
 
 const Article = () => {
     const {channelList} = useChannel()
-    const columns = []
+    const columns = [
+        {
+            title: '标题',
+            dataIndex: 'title',
+        }
+    ]
     const [count, setCount] = useState(0)
     
     const [list, setList] = useState([])
     useEffect(() => {
         async function getList() {
             const res = await getArticleListApi()
-            setList(res.data.result)
+            setList(res.data.results)
             setCount(res.data.total_count)
         }
         getList()
@@ -39,10 +44,10 @@ const Article = () => {
             }
             style={{marginBottom: 20}}
         >
-            <Form initialValues={{status: null}}>
+            <Form initialValues={{status: ''}}>
                 <Form.Item label="状态" name="status">
                     <Radio.Group>
-                        <Radio value={null}>全部</Radio>
+                        <Radio value={''}>全部</Radio>
                         <Radio value={0}>草稿</Radio>
                         <Radio value={2}>审核通过</Radio>
                     </Radio.Group>
