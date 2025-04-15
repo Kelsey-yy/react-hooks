@@ -4,7 +4,7 @@ import { request } from '@/utils'
 // 1.登录的请求（不包含处理结果）
 export const loginApi = (formData: any) => {
     return request({
-        url: '/authrorizations',
+        url: '/authorizations',
         method: 'POST',
         data: formData
     })

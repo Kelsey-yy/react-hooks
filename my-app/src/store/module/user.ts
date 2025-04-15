@@ -31,11 +31,11 @@ const  { setToken, setUserInfo, clearUserInfo } = userStore.actions
 const userReducer = userStore.reducer
 
 // 异步方法获取token
-const fetchLogin = (LoginForm: any) => {
+const fetchLogin = (loginForm: any) => {
     return async (dispatch: any) => {
         // 1. 发送请求获取token
         // 2.提交同步action，进行token的存入
-        const res = await request.post('/authorizations', LoginForm) // 1.
+        const res = await loginApi(loginForm) // 1.
         dispatch(setToken(res.data.token)) // 2.
     }
 }
@@ -43,7 +43,7 @@ const fetchLogin = (LoginForm: any) => {
 // 异步方法获取用户信息
 const fetchUserInfo = () => {
     return async (dispatch: any) => {
-       const res = await request.get('/user/profile')
+       const res = await getProfileApi()
        dispatch(setUserInfo(res.data))
     }
 }
