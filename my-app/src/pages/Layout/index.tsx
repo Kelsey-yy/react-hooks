@@ -10,7 +10,7 @@ import {
 import { Button, Layout as _Layout, Menu, theme, Popconfirm } from 'antd';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserInfo } from '@/store/module/user';
+import { fetchUserInfo, clearUserInfo } from '@/store/module/user';
 import './index.scss'
 
 const { Header, Sider } = _Layout;
@@ -55,6 +55,15 @@ const Layout = () => {
     dispatch(fetchUserInfo())
   }, [dispatch])
 
+  const onConfirm = () => {
+    console.log('退出');
+    // 退出要清除用户信息
+    dispatch(clearUserInfo())
+    navigate('/login');
+
+    
+  }
+
   const name = useSelector((state: any) => state.user.userInfo.name)
 
   return (
@@ -68,6 +77,7 @@ const Layout = () => {
                     title="是否确定退出?"
                     okText="退出"
                     cancelText="取消"
+                    onConfirm={onConfirm}
                 >
                     <LogoutOutlined style={{marginRight: '10px'}} />
                     退出
