@@ -7,15 +7,39 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout as _Layout, Menu, theme } from 'antd';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-const { Header, Sider, Content } = _Layout;
+const { Header, Sider } = _Layout;
+const items = [
+    {
+      key: '/',
+      icon: <UserOutlined />,
+      label: '首页',
+    },
+    {
+      key: '/article',
+      icon: <VideoCameraOutlined />,
+      label: '文章管理',
+    },
+    {
+      key: '/publish',
+      icon: <UploadOutlined />,
+      label: '创建文章',
+    },
+  ]
 
 const Layout = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer},
   } = theme.useToken();
+
+  const onMenuClick = (route: any) => {
+    const path = route.key;
+    navigate(path);
+  }
+
 
   return (
     <_Layout style={{ minHeight: '100vh' }}>
@@ -25,23 +49,8 @@ const Layout = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: '首页',
-            },
-            {
-              key: '2',
-              icon: <VideoCameraOutlined />,
-              label: '文章管理',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: '创建文章',
-            },
-          ]}
+          items={items}
+          onClick={onMenuClick}
         />
       </Sider>
       <_Layout>
