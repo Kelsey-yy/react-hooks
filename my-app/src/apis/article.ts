@@ -9,3 +9,11 @@ export const getChannelApi = () => {
     })
 }
 
+// 2.提交表单
+export const createArticleApi = (formData: any) => {
+    return request({
+        url: '/mp/articles?draft=false',
+        method: 'POST',
+        data: formData
+    })
+}

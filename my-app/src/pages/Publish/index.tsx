@@ -16,7 +16,7 @@ import './index.scss'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import TextArea from 'antd/es/input/TextArea';
-import {getChannelApi} from '@/apis/article'
+import {getChannelApi, createArticleApi} from '@/apis/article'
 import { useEffect, useState } from 'react';
 const Publish = () => {
     const [channelList, setChannelList] = useState([])
@@ -30,6 +30,21 @@ const Publish = () => {
         getChannelList()
       
     }, [])
+    const onFinish = async (formValue: any) => {
+        // 1. 对表单数据进行处理
+        const {title, content, channel_id} = formValue
+        const reqData = {
+            title,
+            content,
+            cover: {
+                type: 0,
+                images: []
+            },
+            channel_id,
+        }
+        const res = await createArticleApi(reqData)
+        
+    }
   return (
     <div className='publish'>
       <Card title={
@@ -44,6 +59,7 @@ const Publish = () => {
             labelCol={{span: 4}}
             wrapperCol={{span: 16}}
             initialValues={{type: `1`}}
+            onFinish={onFinish}
         >
             <Form.Item
               label='标题'
@@ -59,7 +75,7 @@ const Publish = () => {
               >
               <Select placeholder='请选择文章分类' style={{width: 400}}>
                 {
-                    channelList.map(item => <Option key={item.id}  value={item.id}>{item.name}</Option>)
+                    channelList.map(item => <Select.Option key={item.id}  value={item.id}>{item.name}</Select.Option>)
                 }
                 
               </Select>
