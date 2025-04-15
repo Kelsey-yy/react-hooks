@@ -7,12 +7,12 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout as _Layout, Menu, theme } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const { Header, Sider } = _Layout;
 const items = [
     {
-      key: '/',
+      key: '/home',
       icon: <UserOutlined />,
       label: '首页',
     },
@@ -35,10 +35,15 @@ const Layout = () => {
     token: { colorBgContainer},
   } = theme.useToken();
 
+  // 菜单点击事件， 跳转路由
   const onMenuClick = (route: any) => {
     const path = route.key;
     navigate(path);
   }
+
+  const location = useLocation();
+  const  selectedKey = location.pathname;
+  
 
 
   return (
@@ -48,7 +53,7 @@ const Layout = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          selectedKeys={selectedKey}
           items={items}
           onClick={onMenuClick}
         />
