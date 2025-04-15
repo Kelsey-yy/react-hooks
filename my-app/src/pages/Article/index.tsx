@@ -5,11 +5,13 @@ import locale from "antd/es/date-picker/locale/zh_CN" // 引入汉化包，让�
 import { Table, Tag, Space } from 'antd';
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import img404 from '@/assets/error.png'
+import { useChannel } from "@/hooks/userChannel";
 
 
 const { RangePicker } = DatePicker
 
 const Article = () => {
+    const {channelList} = useChannel()
     const columns = [
       
     ]
@@ -43,8 +45,13 @@ const Article = () => {
                         // defaultValue="lucy"
                         style={{width: 200}}
                     >
-                        <Select.Option value='jack'>Jack</Select.Option>
-                        <Select.Option value='lucy'>Lucy</Select.Option>
+                        {
+                            channelList.map((item: any) => {
+                                return (
+                                    <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
+                                )
+                            })
+                        }
                     </Select>
                 </Form.Item>
                 <Form.Item label="日期" name="date">

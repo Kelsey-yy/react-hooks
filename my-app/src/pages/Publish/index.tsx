@@ -19,18 +19,9 @@ import 'react-quill/dist/quill.snow.css';
 import TextArea from 'antd/es/input/TextArea';
 import {getChannelApi, createArticleApi} from '@/apis/article'
 import { useEffect, useState } from 'react';
+import { useChannel } from '@/hooks/userChannel';
 const Publish = () => {
-    const [channelList, setChannelList] = useState([])
-    useEffect(() => {
-        // 1. 封装一个函数，在函数体内调用接口
-        const getChannelList = async () => {
-            const res = await getChannelApi()
-            setChannelList(res.data.channels)
-        }
-        // 2. 在useEffect中调用函数
-        getChannelList()
-      
-    }, [])
+    const {channelList} = useChannel()
     const onFinish = async (formValue: any) => {
         
         // 1. 对表单数据进行处理
