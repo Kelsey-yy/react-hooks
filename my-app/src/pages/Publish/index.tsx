@@ -45,6 +45,13 @@ const Publish = () => {
         const res = await createArticleApi(reqData)
         
     }
+
+
+    const [imageList, setImageList] = useState([])
+    // 2. 上传图片的回调函数： 在整个上传的过程中这个方法不断触发。
+    const onChange = (value: any) => {
+        setImageList(value.fileList)
+    }
   return (
     <div className='publish'>
       <Card title={
@@ -79,6 +86,31 @@ const Publish = () => {
                 }
                 
               </Select>
+            </Form.Item>
+            <Form.Item label="封面">
+                <Form.Item
+                  name='type'
+                  >
+                    <Radio.Group>
+                        <Radio value={1}>单图</Radio>
+                        <Radio value={3}>三图</Radio>
+                        <Radio value={0}>无图</Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                {/* listType: 决定选择文件框的外观样式
+                    showUploadList: 决定是否显示文件列表
+                 */}
+                  <Upload
+                    listType="picture-card"
+                    showUploadList
+                    action={'http://geek.itheima.net/v1_0/upload'}
+                    name='image'
+                    onChange={onChange}
+                    >
+                        <div style={{marginTop: 8}}>
+                            <PlusOutlined />
+                        </div>
+                    </Upload>
             </Form.Item>
             <Form.Item
               label='内容'
